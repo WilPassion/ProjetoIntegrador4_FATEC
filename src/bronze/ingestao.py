@@ -1,15 +1,15 @@
 # Databricks notebook source
 # DBTITLE 1,Leitura Aquivos - Bucket
-dbutils.fs.ls("s3://translog-pb-raw/upsell/full_load/viagens/")
+dbutils.fs.ls("s3://pb-translog-raw/upsell/full_load/viagens/")
 
 # COMMAND ----------
 
 # DBTITLE 1,Load dos Arquivos
 # Caminho do S3 onde estão os arquivos Parquet
-s3_path = "s3://translog-pb-raw/upsell/full_load/viagens/"
+s3_path = "s3://pb-translog-raw/upsell/full_load/viagens/"
 
 # Carregar todos os arquivos Parquet do caminho
-df_full = spark.read.format("parquet").load("s3://translog-pb-raw/upsell/full_load/viagens/")
+df_full = spark.read.format("parquet").load("s3://pb-translog-raw/upsell/full_load/viagens/")
 
 # COMMAND ----------
 
