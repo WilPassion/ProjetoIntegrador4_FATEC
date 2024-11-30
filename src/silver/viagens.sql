@@ -1,4 +1,3 @@
-%sql
 SELECT
     ID_viagem AS idViagem,
     DES AS destino,
