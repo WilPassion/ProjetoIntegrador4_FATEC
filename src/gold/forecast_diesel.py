@@ -150,58 +150,6 @@ plt.show()
 
 # COMMAND ----------
 
-import boto3
-import pandas as pd
-import numpy as np
-from statsmodels.tsa.arima.model import ARIMA
-import matplotlib.pyplot as plt
-
-# Função de treinamento e previsão com ARIMA
-def treino_arima_e_forecast(data, steps=30):
-    model = ARIMA(data, order=(5, 1, 0))
-    model_fit = model.fit()
-    forecast = model_fit.forecast(steps=steps)
-    return forecast
-
-# Função para calcular o MAPE
-def calculando_mape(atual, forecast):
-    return (np.abs(atual - forecast) / atual).mean() * 100
-
-# Resample diário dos dados
-df_diesel = df_diesel.resample('D').mean()
-
-# Ajuste de 30 dias
-forecast = treino_arima_e_forecast(df_diesel['valorVenda'], steps=30)
-
-# Definir a data inicial como 2024-12-03
-start_date = pd.Timestamp('2024-12-03')
-
-# Criar as datas de previsão a partir de 2024-12-03
-forecast_dates = pd.date_range(start=start_date, periods=30, freq='D')
-forecast_series = pd.Series(forecast, index=forecast_dates)
-
-# Criar o DataFrame para exportação
-forecast_df = pd.DataFrame({
-    'dataColeta': forecast_series.index,
-    'forecast': forecast_series.values
-})
-
-# Definir o caminho no S3
-bucket_name = 'pb-translog-raw'
-file_key = 'upsell/full_load/precos_combustiveis/forecast_diesel.parquet'
-
-# Conectar ao cliente S3
-s3_client = boto3.client('s3')
-
-# Salvar o DataFrame como Parquet no S3
-# Usando o método `to_parquet` com o caminho local temporário para depois fazer upload ao S3
-local_path = '/tmp/forecast_diesel.parquet'  # Caminho local temporário
-
-forecast_df.to_parquet(local_path)  # Salva localmente primeiro
-
-# Agora, fazer o upload para o S3
-s3_client.upload_file(local_path, bucket_name, file_key)
-print(f"Arquivo salvo no S3 em: s3://{bucket_name}/{file_key}")
 
 
 # COMMAND ----------
@@ -241,4 +189,3 @@ forecast_df = pd.DataFrame({
 
 # Salvando o DataFrame como Parquet no S3
 forecast_df.to_parquet
-
