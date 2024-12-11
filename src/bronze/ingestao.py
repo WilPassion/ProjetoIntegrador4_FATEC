@@ -1,5 +1,16 @@
 # Databricks notebook source
-# DBTITLE 1,Leitura Aquivos - Bucket
+# MAGIC %md
+# MAGIC ### Ingestão Viagens
+# MAGIC
+# MAGIC Dataset: dados empresa  
+# MAGIC
+# MAGIC catalog = "bronze"  
+# MAGIC schema = "upsell"  
+# MAGIC tablename = "viagens"  
+
+# COMMAND ----------
+
+# DBTITLE 1,Leitura Aquivos - Bucket Raw
 dbutils.fs.ls("s3://pb-translog-raw/upsell/full_load/viagens/")
 
 # COMMAND ----------
@@ -98,19 +109,62 @@ df_full = df_full.select(*columns)
 
 # DBTITLE 1,Escrevendo Arquivo/Tabela Delta
 # Salvar o DataFrame como uma Delta Table na camada bronze
+tablename = "viagens"
+camada = "bronze"
+
 (df_full.coalesce(1)
  .write
  .format("delta")
  .mode("overwrite")
  .option("mergeSchema", "true")
- .saveAsTable("bronze.upsell.viagens"))
+ .saveAsTable(f"{camada}.upsell.{tablename}"))
 
 # Mensagem de sucesso/confirmação
-print("Delta Table salva como bronze.upsell.viagens com sucesso!")
+print(f"Detal Table salvo com sucesso na camada {camada}.upsell.{tablename}")
 
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ### Ingestão Preços Combustíveis
+# MAGIC
+# MAGIC Dataset: [gov.br](https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis)
+# MAGIC
 # MAGIC catalog = "bronze"  
 # MAGIC schema = "upsell"  
-# MAGIC tablename = "viagens"  
+# MAGIC tablename = "precos-combustiveis"  
+
+# COMMAND ----------
+
+# DBTITLE 1,Leitura Aquivos - Raw Bucket
+dbutils.fs.ls("s3://pb-translog-raw/upsell/full_load/precos_combustiveis/")
+
+# COMMAND ----------
+
+# DBTITLE 1,Load dos Arquivos
+# Caminho do S3 onde estão os arquivos Parquet
+s3_path = "s3://pb-translog-raw/upsell/full_load/precos_combustiveis/"
+
+# Carregar todos os arquivos Parquet do caminho
+df_full = spark.read.format("parquet").load(s3_path)
+
+# COMMAND ----------
+
+# DBTITLE 1,Escrevendo Delta Table
+# Salvar o DataFrame como uma Delta Table na camada bronze
+tablename = "precos_combustiveis"
+camada = "bronze"
+
+(df_full.coalesce(1)
+ .write
+ .format("delta")
+ .mode("overwrite")
+ .option("mergeSchema", "true")
+ .saveAsTable(f"{camada}.upsell.{tablename}"))
+
+# Mensagem de sucesso/confirmação
+print(f"Delta Table salvo com sucesso na camada {camada}.upsell.{tablename}")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC
