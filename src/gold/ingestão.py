@@ -28,3 +28,19 @@ print(query)
 
 df = spark.sql(query)
 df.write.format("delta").mode("overwrite").saveAsTable(f"{camada}.upsell.{tablename}")
+
+# COMMAND ----------
+
+# DBTITLE 1,Ingestão - análise_geral
+def import_query(path):
+    with open(path, "r") as open_file:
+        return open_file.read()
+
+tablename = "analise_geral"
+camada = "gold"
+
+query = import_query(tablename + ".sql")
+print(query)
+
+df = spark.sql(query)
+df.write.format("delta").mode("overwrite").saveAsTable(f"{camada}.upsell.{tablename}")
