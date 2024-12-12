@@ -1,7 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC ### Ingestão Viagens
-# MAGIC
+# MAGIC Ingestão Viagens  
 # MAGIC Dataset: dados empresa  
 # MAGIC
 # MAGIC catalog = "bronze"  
@@ -124,14 +123,14 @@ print(f"Detal Table salvo com sucesso na camada {camada}.upsell.{tablename}")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Ingestão Preços Combustíveis
+# MAGIC %md  
+# MAGIC ### Ingestão Preços Combustíveis  
 # MAGIC
-# MAGIC Dataset: [gov.br](https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis)
+# MAGIC Dataset: [gov.br](https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis)  
 # MAGIC
-# MAGIC catalog = "bronze"  
-# MAGIC schema = "upsell"  
-# MAGIC tablename = "precos-combustiveis"  
+# MAGIC catalog = "bronze"    
+# MAGIC schema = "upsell"   
+# MAGIC tablename = "precos-combustiveis"   
 
 # COMMAND ----------
 
@@ -163,8 +162,3 @@ camada = "bronze"
 
 # Mensagem de sucesso/confirmação
 print(f"Delta Table salvo com sucesso na camada {camada}.upsell.{tablename}")
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC
