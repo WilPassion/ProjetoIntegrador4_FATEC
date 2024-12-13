@@ -28,7 +28,8 @@ de coleta, organização, transformação e análise dos dados.
 -----------------------------------------------------------------------
 
 ### **Arquitetura:**
-A imagem anexada é uma representação arquitetural de um Data Lakehouse baseado no Databricks e Apache Spark, com integração ao Delta Lake para gerenciar dados de forma escalável e confiável:
+
+A imagem anexada é uma representação arquitetural de um Data Lakehouse construído no Databricks com Apache Spark, utilizando o Delta Lake como camada de armazenamento para gerenciar dados de forma escalável, confiável e transacional.
 
 <img align="center" src="https://github.com/WilPassion/ProjetoIntegrador4_FATEC/blob/main/imgs/arquitetura.png" alt="arquitetura" width="750">   
 
